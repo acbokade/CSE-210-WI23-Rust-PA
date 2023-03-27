@@ -34,6 +34,9 @@ impl Color {
      * https://doc.rust-lang.org/std/primitive.u8.html
      */
     pub fn cross(c1: &Color, c2: &Color) -> Color {
-        unimplemented!();
+        let red: i32 = ((c1.r as i32) + (c2.r as i32)) % 256;
+        let green: i32 = ((c1.g as i32) + (c2.g as i32)) % 256;
+        let blue: i32 = ((c1.b as i32) + (c2.b as i32)) % 256;
+        Color::new(red as u8, green as u8, blue as u8)
     }
 }

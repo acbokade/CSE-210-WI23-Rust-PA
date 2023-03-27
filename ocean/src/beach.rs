@@ -1,23 +1,24 @@
-use crate::color::Color;
+// use crate::color::Color;
 use crate::crab::Crab;
-use crate::diet::Diet;
+// use crate::diet::Diet;
 use std::slice::Iter;
 
 #[derive(Debug)]
 pub struct Beach {
     // TODO: Declare the fields of the Beach struct here.
+    pub crabs: Vec<Crab>,
 }
 
 impl Beach {
     pub fn new() -> Beach {
-        unimplemented!();
+        Beach { crabs: Vec::new() }
     }
 
     /**
      * Returns the number of crabs on the beach.
      */
     pub fn size(&self) -> usize {
-        unimplemented!();
+        self.crabs.len()
     }
 
     /**
@@ -28,15 +29,15 @@ impl Beach {
      *     - The newly added crab should be at the END of the collection.
      */
     pub fn add_crab(&mut self, crab: Crab) {
-        unimplemented!();
+        self.crabs.push(crab)
     }
 
     pub fn get_crab(&self, index: usize) -> &Crab {
-        unimplemented!();
+        &self.crabs[index]
     }
 
     pub fn crabs(&self) -> Iter<Crab> {
-        unimplemented!();
+        self.crabs.iter()
     }
 
     /**
@@ -45,14 +46,31 @@ impl Beach {
      *   - Some of a reference to the Crab with the highest speed.
      */
     pub fn get_fastest_crab(&self) -> Option<&Crab> {
-        unimplemented!();
+        /*
+        if self.crabs.len() == 0 {
+         return None
+        } else {
+         let mut max_speed: i32 = 0;
+         let mut fastest_crab: Option<Crab> = None;
+         for crab in self.crabs.iter() {
+             if (crab.speed() as i32) > max_speed {
+                 max_speed = (crab.speed() as i32);
+                 fastest_crab = crab;
+             }
+         }
+         return fastest_crab;
+        }
+        */
+        self.crabs
+            .iter()
+            .max_by(|x, y| x.speed.partial_cmp(&y.speed()).unwrap())
     }
 
     /**
      * Returns a vector of references to the crabs with a given name.
      */
     pub fn find_crabs_by_name(&self, name: &str) -> Vec<&Crab> {
-        unimplemented!();
+        self.crabs.iter().filter(|crab| crab.name == name).collect()
     }
 
     /**
@@ -61,6 +79,9 @@ impl Beach {
      * the method should panic.
      */
     pub fn breed_crabs(&mut self, i: usize, j: usize, name: String) {
-        unimplemented!();
+        let len = self.crabs.len();
+        assert!(i < len && j < len, "indices are out of bounds");
+        let crab = Crab::breed(&self.crabs[i], &self.crabs[j], name);
+        self.crabs.push(crab);
     }
 }

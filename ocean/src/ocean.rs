@@ -2,29 +2,35 @@ use crate::beach::Beach;
 use crate::prey::{Algae, Clam, Minnow, Shrimp};
 use crate::reef::Reef;
 use std::cell::RefCell;
+// use std::ops::Deref;
 use std::rc::Rc;
 use std::slice::Iter;
 
 #[derive(Debug)]
 pub struct Ocean {
     // TODO: Fill in fields here.
+    pub reefs: Vec<Rc<RefCell<Reef>>>,
+    pub beaches: Vec<Beach>,
 }
 
 impl Ocean {
     pub fn new() -> Ocean {
-        unimplemented!();
+        Ocean {
+            reefs: Vec::new(),
+            beaches: Vec::new(),
+        }
     }
 
     pub fn add_beach(&mut self, beach: Beach) {
-        unimplemented!();
+        self.beaches.push(beach);
     }
 
     pub fn beaches(&self) -> Iter<Beach> {
-        unimplemented!();
+        self.beaches.iter()
     }
 
     pub fn reefs(&self) -> Iter<Rc<RefCell<Reef>>> {
-        unimplemented!();
+        self.reefs.iter()
     }
 
     /**
@@ -41,6 +47,24 @@ impl Ocean {
         n_clams: u32,
         n_algae: u32,
     ) -> Rc<RefCell<Reef>> {
-        unimplemented!();
+        let reef = Rc::new(RefCell::new(Reef::new()));
+        for _ in 0..n_minnows {
+            let prey = Minnow::new(25);
+            reef.as_ref().borrow_mut().add_prey(Box::new(prey));
+        }
+        for _ in 0..n_shrimp {
+            let prey = Shrimp::new(1);
+            reef.as_ref().borrow_mut().add_prey(Box::new(prey));
+        }
+        for _ in 0..n_clams {
+            let prey = Clam::new();
+            reef.as_ref().borrow_mut().add_prey(Box::new(prey));
+        }
+        for _ in 0..n_algae {
+            let prey = Algae::new();
+            reef.as_ref().borrow_mut().add_prey(Box::new(prey));
+        }
+        self.reefs.push(reef.clone());
+        return reef;
     }
 }
